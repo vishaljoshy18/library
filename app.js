@@ -18,7 +18,25 @@ function displayBooks(myLibrary) {
     });
 }
 
-addBookToLibrary('harry potter ', ' jk ', 690, true);
-addBookToLibrary('harry potter 2 ', ' jk ', 90, false);
 
-displayBooks(myLibrary);
+function getBookReadStatus (checkbox){
+    if(checkbox.checked){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+
+document.querySelector('#book-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const title = document.querySelector('#book-title').value;
+    const author = document.querySelector('#book-author').value;
+    const pages = document.querySelector('#book-pages').value;
+    const readStatus = getBookReadStatus(document.querySelector('#book-read-status'));
+    
+    addBookToLibrary(title,author,pages,readStatus);
+    displayBooks(myLibrary);
+});
+
