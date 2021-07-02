@@ -10,14 +10,8 @@ function Book(title, author, pages, readStatus) {
 function addBookToLibrary(title, author, pages, readStatus) {
     let book = new Book(title, author, pages, readStatus);
     myLibrary.push(book);
+    displayBooks(myLibrary);
 }
-
-function displayBooks(myLibrary) {
-    myLibrary.forEach(book => {
-        console.log(book);
-    });
-}
-
 
 function getBookReadStatus (checkbox){
     if(checkbox.checked){
@@ -28,6 +22,32 @@ function getBookReadStatus (checkbox){
     }
 }
 
+function displayBooks(myLibrary) {
+    const bookShelf = document.querySelector('#book-shelf');
+    const bookCard = document.createElement('div');
+    const title = document.createElement('h1');
+    const author = document.createElement('h2');
+    const pages = document.createElement('h5');
+     
+
+    myLibrary.forEach(book => {
+        title.textContent = book.title;
+        author.textContent = book.author;
+        pages.textContent = book.pages;
+        });
+    
+    bookCard.appendChild(title);
+    bookCard.appendChild(author);
+    bookCard.appendChild(pages);
+
+    bookShelf.appendChild(bookCard);
+
+
+}
+
+
+
+
 
 document.querySelector('#book-form').addEventListener('submit', (e) => {
     e.preventDefault();
@@ -37,6 +57,8 @@ document.querySelector('#book-form').addEventListener('submit', (e) => {
     const readStatus = getBookReadStatus(document.querySelector('#book-read-status'));
     
     addBookToLibrary(title,author,pages,readStatus);
-    displayBooks(myLibrary);
+        
 });
 
+
+ 
