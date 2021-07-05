@@ -1,4 +1,3 @@
-let myLibrary = [];
 
 function Book(title, author, pages, readStatus) {
     this.title = title;
@@ -35,7 +34,6 @@ function clearBookShelf(bookShelf) {
 function displayBooks(myLibrary) {
     const bookShelf = document.querySelector('#book-shelf');
     clearBookShelf(bookShelf);
-
 
     myLibrary.forEach(book => {
         const bookCard = document.createElement('div');
@@ -76,6 +74,8 @@ function displayBooks(myLibrary) {
         bookShelf.appendChild(bookCard);
     });
     
+    addLibraryToLocalStorage(myLibrary);
+
     onReadToggleButtonClick(myLibrary);
     onRemoveButtonClick(myLibrary);
 }
@@ -117,8 +117,24 @@ function closeForm() {
     document.querySelector('#overlay').style.display = 'none';
 }
 
+function addLibraryToLocalStorage(myLibrary){
+    localStorage.setItem('storedBooks',JSON.stringify(myLibrary));
+}
+
+function getBooksFromLocalStorage(myLibrary){
+    if(localStorage.length != 0){
+        booksFromLocalStorage =JSON.parse(localStorage.getItem('storedBooks'));
+        booksFromLocalStorage.forEach(book => {
+            addBookToLibrary(book.title ,book.author, book.pages , book.readStatus);
+        });
+        displayBooks(myLibrary);
+    }
+}
 
 
+
+let myLibrary=[];
+getBooksFromLocalStorage(myLibrary);
 
 const bookForm = document.querySelector('.book-form')
 bookForm.addEventListener('submit', (e) => {
