@@ -13,6 +13,10 @@ function addBookToLibrary(title, author, pages, readStatus) {
     displayBooks(myLibrary);
 }
 
+Book.prototype.toggleReadStatus= function(){
+    this.readStatus = !this.readStatus;
+}
+
 function getBookReadStatus(checkbox) {
     if (checkbox.checked) {
         return true;
@@ -44,7 +48,8 @@ function displayBooks(myLibrary) {
         const title = document.createElement('h1');
         const author = document.createElement('h2');
         const pages = document.createElement('h5');
-        const readStatus = document.createElement('button');
+        const readStatusButton = document.createElement('button');
+        readStatusButton.setAttribute('id', 'read-status-button'); 
 
         const removeButton = document.createElement('button');
         removeButton.setAttribute('id', 'book-remove-button');
@@ -54,30 +59,40 @@ function displayBooks(myLibrary) {
         author.textContent = book.author;
         pages.textContent = book.pages;
         if (book.readStatus == true) {
-            readStatus.textContent = "Read";
+            readStatusButton.textContent = "Read";
         }
         else {
-            readStatus.textContent = "Not Read";
+            readStatusButton.textContent = "Not Read";
         }
         bookCard.appendChild(title);
         bookCard.appendChild(author);
         bookCard.appendChild(pages);
 
-        bookCardButtons.appendChild(readStatus);
+        bookCardButtons.appendChild(readStatusButton);
         bookCardButtons.appendChild(removeButton);
 
         bookCard.appendChild(bookCardButtons);
 
         bookShelf.appendChild(bookCard);
     });
-
+    
+    onReadToggleButtonClick(myLibrary);
     onRemoveButtonClick(myLibrary);
 }
 
+function onReadToggleButtonClick(myLibrary){
+    const readStatusButtons = document.querySelectorAll('#read-status-button')
+    readStatusButtons.forEach(button => {
+        button.addEventListener('click', ()=>{
+            myLibrary[(button.parentElement).parentElement.dataset.bookid].toggleReadStatus();
+            displayBooks(myLibrary);
+        })
+    });
+}
 
 function onRemoveButtonClick(myLibrary) {
-    const bookRemoveButton = document.querySelectorAll('#book-remove-button');
-    bookRemoveButton.forEach(button => {
+    const bookRemoveButtons = document.querySelectorAll('#book-remove-button');
+    bookRemoveButtons.forEach(button => {
         button.addEventListener('click', () => {
             myLibrary.splice((button.parentElement).parentElement.dataset.bookid, 1);
             displayBooks(myLibrary);
@@ -105,7 +120,7 @@ function closeForm() {
 
 
 
-const bookForm = document.querySelector('.book-form');
+const bookForm = document.querySelector('.book-form')
 bookForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const title = document.querySelector('#book-title').value;
