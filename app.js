@@ -1,20 +1,23 @@
-
-function Book(title, author, pages, readStatus) {
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.readStatus = readStatus;
+class Book{
+    constructor(title,author,pages,readStatus){
+        this.title = title ;
+        this.author = author;
+        this.pages =pages;
+        this.readStatus =readStatus;
+    }
+    toggleReadStatus(){
+        this.readStatus = !this.readStatus;
+    }
 }
+
 
 function addBookToLibrary(title, author, pages, readStatus) {
     let book = new Book(title, author, pages, readStatus);
     myLibrary.push(book);
     displayBooks(myLibrary);
+    console.log(myLibrary);
 }
 
-Book.prototype.toggleReadStatus= function(){
-    this.readStatus = !this.readStatus;
-}
 
 function getBookReadStatus(checkbox) {
     if (checkbox.checked) {
